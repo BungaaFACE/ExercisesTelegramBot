@@ -1,7 +1,6 @@
 import asyncio
-import os
 from dotenv import load_dotenv
-from codeforces_api.codeforces_api import sync_exercises
+from codeforces_api.codeforces_api import sync_exercises_task
 from config import settings
 from telethon import TelegramClient
 from telegram_bot.handlers import problem_detail, search_problem_by_name, start_message, search_tag_and_difficulty
@@ -20,7 +19,7 @@ async def main():
     bot_client.add_event_handler(search_problem_by_name)
     
     # Добавляем периодическую задачу для парсинга задач
-    # await sync_exercises(settings.TIME_PERIOD)
+    await sync_exercises_task(settings.TIME_PERIOD)
     
     # Запускаем бота
     await bot_client.run_until_disconnected()

@@ -1,8 +1,7 @@
-from sql_alchemy.models import TagsOrm, ProblemsOrm, ProblemsTagsOrm
-from sql_alchemy.database import Base, async_engine, async_session_factory
+from sql_alchemy.models import TagsOrm, ProblemsOrm
+from sql_alchemy.database import async_session_factory
 from sqlalchemy.future import select
 from sqlalchemy.orm import load_only
-from sqlalchemy.orm import Mapped
 from sqlalchemy import distinct
 from sqlalchemy.sql.expression import func
 import logging
@@ -157,64 +156,9 @@ class SelectAsyncORM(BaseAsyncORM):
 
 if __name__ == "__main__":
     import asyncio
-
-    # async def test_tags():
-    #     async with InsertAsyncORM() as sql:
-    #         result = await sql.str_to_orm_tags(['Math', 'Logic', 'indie', 'Math'])
-    #         print(result)
-    #         assert len(result) == 4
-    #         assert ['Math', 'Logic', 'indie', 'Math'] == [tag.name for tag in result]
-    #         result = await sql.get_all_model_rows(TagsOrm)
-    #         assert len(result) == 3
-    #         assert ['Math', 'Logic', 'indie'] == [tag.name for tag in result]
-    async def test_columns():
+    async def test():
         async with SelectAsyncORM() as sql_select:
             problem = await sql_select.get_problem_by_name(problem_name='1285')
             print(problem)
-            # for problem in problems:
-            #     print(problem.problem_tags)
-
-    async def test_problems():
-        import copy
-        test_problems = [
-            {'name': '1931 G Одномерный пазл',
-            'rating': 2000,
-            'solved_count': 1554,
-            'tags': ['combinatorics', 'math', 'number theory']},
-            {'name': '1931 F Скриншоты чата',
-            'rating': 1700,
-            'solved_count': 4858,
-            'tags': ['combinatorics',
-                    'dfs and similar',
-                    'graphs',
-                    'greedy',
-                    'implementation']},
-            {'name': '1931 E Аня и подарок на День святого Валентина',
-            'rating': 1400,
-            'solved_count': 9642,
-            'tags': ['games', 'greedy', 'math', 'sortings']},
-            {'name': '1931 D Делимые пары',
-            'rating': 1300,
-            'solved_count': 11707,
-            'tags': ['combinatorics', 'math', 'number theory']}
-        ]
-        async with InsertAsyncORM() as sql_insert:
-            test_problems_copy = copy.deepcopy(test_problems)
-            await sql_insert.add_problems(test_problems_copy)
         
-        async with SelectAsyncORM() as sql_select:
-            tags = await sql_select._get_model_rows(TagsOrm)
-            print(tags)
-            assert len(tags) == 9
-            problems = await sql_select._get_model_rows(ProblemsOrm)
-            assert len(problems) == len(test_problems)
-            for problem_ind in range(len(test_problems)):
-                assert problems[problem_ind].name == test_problems[problem_ind]['name']
-                assert [tag.name for tag in problems[problem_ind].problem_tags] == test_problems[problem_ind]['tags']
-
-        
-
-    async def main():
-        await asyncio.gather(asyncio.create_task(test_columns()))
-        
-    asyncio.run(main())
+    asyncio.run(test())

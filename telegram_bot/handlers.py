@@ -2,7 +2,6 @@ from telegram_bot import keyboards as kb
 from telethon import events
 from pprint import pprint
 from telegram_bot.services import get_problem_text, wait_for_response
-from sql_alchemy.orm import SelectAsyncORM
 
 
 @events.register(events.NewMessage(pattern='/start'))

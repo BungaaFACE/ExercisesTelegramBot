@@ -14,12 +14,12 @@ sync_engine = create_engine(
     # max_overflow=10,
 )
 
-db_url = settings.DATABASE_URL_asyncpg
+async_db_url = settings.DATABASE_URL_asyncpg
 if settings.TEST:
-    db_url = settings.TEST_SQLITE_ASYNC
+    async_db_url = settings.TEST_SQLITE_ASYNC
 
 async_engine = create_async_engine(
-    url=db_url,
+    url=async_db_url,
     echo=True,
 )
 

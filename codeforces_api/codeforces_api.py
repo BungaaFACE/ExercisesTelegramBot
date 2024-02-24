@@ -2,8 +2,6 @@ import asyncio
 import aiohttp
 import html2text
 from bs4 import BeautifulSoup
-
-from sql_alchemy.models import ProblemsOrm
 from sql_alchemy.orm import InsertAsyncORM
 
 

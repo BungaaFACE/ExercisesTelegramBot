@@ -5,3 +5,4 @@ bot_session.session
 *.pyc
 .vscode
 .pytest_cache
+.coverage
