@@ -95,7 +95,9 @@ class InsertAsyncORM(BaseAsyncORM):
     async def __str_to_orm_tags(self, tags_list: list[str]):
         tags = []
         for tag_name in tags_list:
-            tag, _ = await self._get_or_create_or_update(TagsOrm, name=tag_name)
+            tag, is_created = await self._get_or_create_or_update(TagsOrm, name=tag_name)
+            if is_created:
+                tag.problems = []
             tags.append(tag)
         return tags
     
@@ -103,10 +105,15 @@ class InsertAsyncORM(BaseAsyncORM):
         problem_instances = []
         for problem_ind in range(len(problems_list)):
             tags_str_list = problems_list[problem_ind].pop('tags')
-            tag_instances = await self.__str_to_orm_tags(tags_str_list)
+            tag_instances: list[TagsOrm] = await self.__str_to_orm_tags(tags_str_list)
+            # Выбираем тэг с минимумом задач
+            if not tag_instances:
+                continue
+            tag_instance = min(tag_instances, key=lambda tag_instance: len(tag_instance.problems))
+
             problem_instance, is_created = await self._get_or_create_or_update(ProblemsOrm, session_add=False, update=True, **problems_list[problem_ind])
             if is_created:
-                problem_instance.problem_tags.extend(tag_instances)
+                problem_instance.tag = tag_instance
                 problem_instances.append(problem_instance)
         self._session.add_all(problem_instances)
     
@@ -140,7 +147,7 @@ class SelectAsyncORM(BaseAsyncORM):
             
         return await self._get_model_rows(ProblemsOrm, 
                                           filter_by=filter_by, 
-                                          join=ProblemsOrm.problem_tags, 
+                                          join=ProblemsOrm.tag, 
                                           join_filter_by=join_filter_by, 
                                           order_by=[func.random()],
                                           limit=10)

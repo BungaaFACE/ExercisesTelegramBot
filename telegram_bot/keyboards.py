@@ -51,10 +51,8 @@ async def get_problems_set_kb(problem_name=None, tag_name=None, difficulty=None)
     
     kb = []
     for problem in problems:
-        tags_str = ", ".join([tag.name for tag in problem.problem_tags])
-        problem_id, problem_letter, *_ = problem.name.split(' ')
         kb.append([KeyboardButtonCallback(
-            f'{problem.name} Теги: {tags_str}', 
+            f'{problem.name} Тема: {problem.tag.name}', 
             data=f'problem_{problem.id}'
             )]
         )

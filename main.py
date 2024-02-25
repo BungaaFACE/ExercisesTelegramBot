@@ -22,6 +22,7 @@ async def main():
     await sync_exercises_task(settings.TIME_PERIOD)
     # Поскольку бот telethon запускается при выполнении команды bot.start, нам не нужно выполнять run_until_disconnected() и т.п.
     # В синхронизации задач и так стоит бесконечный цикл
+    # await bot_client.run_until_disconnected()
 
 
 if __name__ == '__main__':
