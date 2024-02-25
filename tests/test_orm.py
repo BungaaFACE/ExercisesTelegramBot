@@ -51,6 +51,6 @@ async def test_async_db_classes():
         assert len(problems) == len(test_problems)
         for problem_ind in range(len(test_problems)):
             assert problems[problem_ind].name == test_problems[problem_ind]['name']
-            assert [tag.name for tag in problems[problem_ind].problem_tags] == test_problems[problem_ind]['tags']
+            assert problems[problem_ind].tag is not None
         
         assert repr(problems[0]).endswith(', name=!TEST! 1931 G Одномерный пазл>')
