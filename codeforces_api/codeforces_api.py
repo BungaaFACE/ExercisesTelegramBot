@@ -59,6 +59,7 @@ async def get_exercise_description(problem_name: str):
                 text_maker.ignore_links = True
                 text = text_maker.handle(html)
                 text = text.replace('$$$', '')
+                text = text.replace('![]', '')
                 
                 text += f'\n\nСсылка: {url}'
                 return text

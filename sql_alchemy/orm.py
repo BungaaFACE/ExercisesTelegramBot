@@ -146,7 +146,7 @@ class SelectAsyncORM(BaseAsyncORM):
                                           limit=10)
     
     async def get_problem_by_id(self, problem_id):
-        return (await self._get_model_rows(ProblemsOrm, filter_by={'id': problem_id}))[0]
+        return (await self._get_model_rows(ProblemsOrm, filter_by={'id': int(problem_id)}))[0]
     
     async def get_problem_by_name(self, problem_name):
         return await self._get_model_rows(ProblemsOrm, 

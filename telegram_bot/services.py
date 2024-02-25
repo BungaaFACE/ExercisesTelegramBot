@@ -1,7 +1,6 @@
 import asyncio
 from codeforces_api.codeforces_api import get_exercise_description
 from sql_alchemy.models import ProblemsOrm
-
 from sql_alchemy.orm import SelectAsyncORM
 
 
