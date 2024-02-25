@@ -5,7 +5,6 @@ from sql_alchemy.orm import SelectAsyncORM
 
 
 async def wait_for_response(event, message, keyboard=None):
-    print(message, keyboard)
     client = event.client
     chat_id = event.chat.id
     async with client.conversation(chat_id) as conv:
@@ -28,7 +27,7 @@ async def get_problem_text(problem_id):
     text += f'Название: {problem.name}\n'\
         f'Количество решений задачи: {problem.solved_count}\n'\
         f'Сложность: {problem.rating}\n'\
-        f'Темы: {", ".join([tag.name for tag in problem.problem_tags])}\n\n'
+        f'Тема: {problem.tag.name}\n\n'
     
     text += f'**{await get_exercise_description(problem.name)}**'
     

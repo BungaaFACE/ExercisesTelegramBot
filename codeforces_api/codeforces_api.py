@@ -20,12 +20,10 @@ async def sync_exercises():
 
     async with aiohttp.ClientSession() as session:
         async with session.get(URL, params=PARAMETERS) as response:
-            
             if response.status == 200:
                 result = (await response.json())['result']
                 problems_statistics = result['problemStatistics']
                 problems = result['problems']
-                
                 problems_list = list(map(lambda problem_ind: 
                     {'name': f'{problems_statistics[problem_ind]["contestId"]} {problems_statistics[problem_ind]["index"]} {problems[problem_ind]["name"]}', 
                     'solved_count': int(problems_statistics[problem_ind]['solvedCount']),
@@ -68,11 +66,11 @@ async def get_exercise_description(problem_name: str):
 
 
 if __name__ == "__main__":
-    # asyncio.run(sync_exercises())
+    asyncio.run(sync_exercises())
     async def test():
         print(await get_exercise_description('1285 B awd awdwa'))
     
-    asyncio.run(test())
+    # asyncio.run(test())
     
 '''
     result: {
