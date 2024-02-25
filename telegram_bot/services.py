@@ -5,7 +5,6 @@ from sql_alchemy.orm import SelectAsyncORM
 
 
 async def wait_for_response(event, message, keyboard=None):
-    print(message, keyboard)
     client = event.client
     chat_id = event.chat.id
     async with client.conversation(chat_id) as conv:
